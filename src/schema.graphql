@@ -10,5 +10,15 @@ type Book {
 
 type Query {
   index: String!
-  books: [Book!]!
+  getAllBooks: [Book!]!
+}
+
+type Mutation {
+  addBooks(addBooksArgs: AddBookArgs!): String!
+}
+
+input AddBookArgs {
+  id: Int!
+  title: String!
+  price: Int!
 }
