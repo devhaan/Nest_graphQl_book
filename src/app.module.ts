@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
-import { BookModule } from './book/book.module';
+import { UserModule } from './user/user.module';
 import { join } from 'path';
 import { AppResolver } from './app.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -20,9 +20,9 @@ import { MongooseModule } from '@nestjs/mongoose';
       //typePaths: ['./**/*.graphql'],// use it when you want schema first and made schema by own
     }),
     MongooseModule.forRoot(
-      'mongodb+srv://devhaan:dev07dev@cluster0.2i6yqc9.mongodb.net/book?retryWrites=true&w=majority',
+      'mongodb+srv://devhaan:dev07dev@cluster0.2i6yqc9.mongodb.net/user?retryWrites=true&w=majority',
     ),
-    BookModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],

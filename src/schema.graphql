@@ -2,23 +2,34 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Book {
-  id: Int!
-  title: String!
-  price: Int
+type User {
+  name: String!
+  email: String!
+  password: String!
 }
 
 type Query {
   index: String!
-  getAllBooks: [Book!]!
+  getAllUsers: [User!]!
 }
 
 type Mutation {
-  addBooks(addBooksArgs: AddBookArgs!): String!
+  addUsers(addUsersArgs: AddUserArgs!): String!
+  loginUser(loginUsersArgs: LoginUserArgs!): String!
+  RemoveUser(removeUsersArgs: RemoveUserArgs!): String
 }
 
-input AddBookArgs {
-  id: Int!
-  title: String!
-  price: Int!
+input AddUserArgs {
+  name: String!
+  email: String!
+  password: String!
+}
+
+input LoginUserArgs {
+  email: String!
+  password: String!
+}
+
+input RemoveUserArgs {
+  email: String!
 }

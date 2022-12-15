@@ -8,25 +8,36 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export interface AddBookArgs {
-    id: number;
-    title: string;
-    price: number;
+export interface AddUserArgs {
+    name: string;
+    email: string;
+    password: string;
 }
 
-export interface Book {
-    id: number;
-    title: string;
-    price?: Nullable<number>;
+export interface LoginUserArgs {
+    email: string;
+    password: string;
+}
+
+export interface RemoveUserArgs {
+    email: string;
+}
+
+export interface User {
+    name: string;
+    email: string;
+    password: string;
 }
 
 export interface IQuery {
     index(): string | Promise<string>;
-    getAllBooks(): Book[] | Promise<Book[]>;
+    getAllUsers(): User[] | Promise<User[]>;
 }
 
 export interface IMutation {
-    addBooks(addBooksArgs: AddBookArgs): string | Promise<string>;
+    addUsers(addUsersArgs: AddUserArgs): string | Promise<string>;
+    loginUser(loginUsersArgs: LoginUserArgs): string | Promise<string>;
+    RemoveUser(removeUsersArgs: RemoveUserArgs): Nullable<string> | Promise<Nullable<string>>;
 }
 
 type Nullable<T> = T | null;
