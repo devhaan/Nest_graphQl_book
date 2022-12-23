@@ -11,12 +11,14 @@ type User {
 type Query {
   index: String!
   getAllUsers: [User!]!
+  getAllUsersId(id: String!): User!
 }
 
 type Mutation {
   addUsers(addUsersArgs: AddUserArgs!): String!
   loginUser(loginUsersArgs: LoginUserArgs!): String!
   RemoveUser(removeUsersArgs: RemoveUserArgs!): String
+  updateUsers(updateUsersArgs: UpdateUserArgs!): User
 }
 
 input AddUserArgs {
@@ -32,4 +34,10 @@ input LoginUserArgs {
 
 input RemoveUserArgs {
   email: String!
+}
+
+input UpdateUserArgs {
+  name: String
+  email: String!
+  password: String
 }

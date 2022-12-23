@@ -5,6 +5,7 @@ import { User, UserDocument } from './entity/User.entity';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { RemoveUserArgs } from './args/remove.user.args';
+import { UpdateUserArgs } from './args/update.user.args';
 
 @Injectable()
 export class UserService {
@@ -20,8 +21,9 @@ export class UserService {
     // ) {
     //   throw new Error('Pass/ConFirm Pass must be same');
     // }
-    const userData = await this.findOne(userArg['email']);
-    if (userData.length > 0) {
+    const query = { email: userArg['email'] };
+    const userData = await this.findOne(query);
+    if (userData[0].length > 0) {
       return 'Already Register please Login';
     }
     const hashedPassword = await bcrypt.hash(userArg['password'], 12);
@@ -34,17 +36,27 @@ export class UserService {
     const createdUser = new this.UserModel(user);
     createdUser.save();
     delete user.password;
-    return 'added Sucessfully';
+    return 'added Successfully';
   }
 
   findAll(): Promise<User[]> {
     return this.UserModel.find().exec();
   }
-  findOne(email: string) {
-    return this.UserModel.find({ email: email }).exec();
+  async findOne(query: object) {
+    const userData = await this.UserModel.find({ query });
+    return userData[0];
   }
-  update() {
-    return this.UserModel.findOneAndUpdate();
+  async update(updateArgs: UpdateUserArgs) {
+    const UserData = await this.UserModel.findOneAndUpdate(
+      { email: updateArgs.email },
+      updateArgs,
+    )
+      .clone()
+      .catch(function (err) {
+        console.log(err);
+      });
+
+    return UserData;
   }
 
   remove(removeArgs: RemoveUserArgs) {
@@ -61,8 +73,10 @@ export class UserService {
     return 'done';
   }
   async login(loginArgs) {
-    const userData = await this.findOne(loginArgs.email);
-    if (userData.length == 0) {
+    const query = { email: loginArgs.email };
+
+    const userData = await this.findOne(query);
+    if (userData[0].length == 0) {
       return 'Invalid User/ Please SignUp first';
     }
 
@@ -70,7 +84,7 @@ export class UserService {
       return 'Invalid Credential';
     }
 
-    const jwt = await this.jwtService.signAsync({ id: userData[0].id });
+    const jwt = await this.jwtService.signAsync({ _id: userData[0].id });
     return jwt;
   }
 
